@@ -13,5 +13,5 @@ and ensuring the project remains the highest-quality OSINT resource in open-sour
 
 ## Contributors
 
-Aegis-OSINT welcomes high-quality contributions from the open-source community following the guidelines  
+Aegis-OSINT welcomes contributions from the open-source community following the guidelines  
 in CONTRIBUTING.md.
