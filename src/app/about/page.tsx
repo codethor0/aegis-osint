@@ -34,7 +34,7 @@ export default function AboutPage() {
               <strong>Ethics:</strong> Strict ethical guidelines for responsible OSINT use
             </li>
             <li>
-              <strong>Quality:</strong> High-quality, verified, and regularly updated information
+              <strong>Quality:</strong> Verified and regularly updated information
             </li>
             <li>
               <strong>Modularity:</strong> Extensible architecture for future enhancements

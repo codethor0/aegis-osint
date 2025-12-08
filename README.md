@@ -36,7 +36,7 @@ The Aegis-OSINT Framework is an organized knowledgebase and optional web-based t
 
 - **Legality**: Only includes legal, publicly accessible resources
 - **Ethics**: Strict ethical guidelines for responsible OSINT use
-- **Quality**: High-quality, verified, and regularly updated information
+- **Quality**: Verified and regularly updated information
 - **Modularity**: Extensible architecture for future enhancements
 - **Transparency**: Open-source, community-driven development
 
@@ -336,7 +336,7 @@ The Aegis-OSINT Framework is built by and for the OSINT community. We thank all 
 Future enhancements planned for the framework include:
 
 - Additional OSINT categories and resources
-- Enhanced search and filtering capabilities
+- Search and filtering capabilities
 - API endpoints for programmatic access
 - CLI tools for command-line usage
 - Integration with popular OSINT tools
