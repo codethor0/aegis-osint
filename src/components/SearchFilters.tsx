@@ -1,13 +1,20 @@
 'use client';
 
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
+import { useState } from 'react';
 import { getCategories } from '@/lib/data';
+import { encodeFilterParam, type MultiSelectFilters } from '@/lib/filtering';
+import SavedFiltersPanel from './SavedFiltersPanel';
 
 interface SearchFiltersProps {
   currentCategory?: string;
   currentRegion?: string;
   currentRiskLevel?: string;
   currentCost?: string;
+  currentCategories?: string[];
+  currentRegions?: string[];
+  currentRiskLevels?: string[];
+  currentCosts?: string[];
   currentSort?: string;
   currentOrder?: 'asc' | 'desc';
 }
@@ -17,6 +24,10 @@ export default function SearchFilters({
   currentRegion,
   currentRiskLevel,
   currentCost,
+  currentCategories,
+  currentRegions,
+  currentRiskLevels,
+  currentCosts,
   currentSort,
   currentOrder,
 }: SearchFiltersProps) {
@@ -25,16 +36,119 @@ export default function SearchFilters({
   const pathname = usePathname();
   const categories = getCategories();
 
-  const handleFilterChange = (filterName: string, value: string) => {
+  const [localCategories, setLocalCategories] = useState<string[]>(currentCategories || []);
+  const [localRegions, setLocalRegions] = useState<string[]>(currentRegions || []);
+  const [localRiskLevels, setLocalRiskLevels] = useState<string[]>(currentRiskLevels || []);
+  const [localCosts, setLocalCosts] = useState<string[]>(currentCosts || []);
+
+  const handleMultiSelectChange = (
+    filterName: 'categories' | 'regions' | 'riskLevels' | 'costs',
+    value: string,
+    checked: boolean
+  ) => {
     const params = new URLSearchParams(searchParams.toString());
-    if (value === '') {
-      params.delete(filterName);
-    } else {
-      params.set(filterName, value);
+
+    let updated: string[];
+    switch (filterName) {
+      case 'categories':
+        updated = checked
+          ? [...localCategories, value]
+          : localCategories.filter((v) => v !== value);
+        setLocalCategories(updated);
+        break;
+      case 'regions':
+        updated = checked ? [...localRegions, value] : localRegions.filter((v) => v !== value);
+        setLocalRegions(updated);
+        break;
+      case 'riskLevels':
+        updated = checked
+          ? [...localRiskLevels, value]
+          : localRiskLevels.filter((v) => v !== value);
+        setLocalRiskLevels(updated);
+        break;
+      case 'costs':
+        updated = checked ? [...localCosts, value] : localCosts.filter((v) => v !== value);
+        setLocalCosts(updated);
+        break;
     }
+
+    if (updated.length > 0) {
+      params.set(filterName, encodeFilterParam(updated));
+    } else {
+      params.delete(filterName);
+    }
+
+    params.delete('category');
+    params.delete('region');
+    params.delete('riskLevel');
+    params.delete('cost');
+
     const basePath = pathname || '/search';
     router.push(`${basePath}?${params.toString()}`);
   };
+
+  const handleClearFilters = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete('categories');
+    params.delete('regions');
+    params.delete('riskLevels');
+    params.delete('costs');
+    params.delete('category');
+    params.delete('region');
+    params.delete('riskLevel');
+    params.delete('cost');
+    setLocalCategories([]);
+    setLocalRegions([]);
+    setLocalRiskLevels([]);
+    setLocalCosts([]);
+    const basePath = pathname || '/search';
+    router.push(`${basePath}?${params.toString()}`);
+  };
+
+  const handleLoadPreset = (filters: MultiSelectFilters) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (filters.categories && filters.categories.length > 0) {
+      params.set('categories', encodeFilterParam(filters.categories));
+      setLocalCategories(filters.categories);
+    } else {
+      params.delete('categories');
+      setLocalCategories([]);
+    }
+
+    if (filters.regions && filters.regions.length > 0) {
+      params.set('regions', encodeFilterParam(filters.regions));
+      setLocalRegions(filters.regions);
+    } else {
+      params.delete('regions');
+      setLocalRegions([]);
+    }
+
+    if (filters.riskLevels && filters.riskLevels.length > 0) {
+      params.set('riskLevels', encodeFilterParam(filters.riskLevels));
+      setLocalRiskLevels(filters.riskLevels);
+    } else {
+      params.delete('riskLevels');
+      setLocalRiskLevels([]);
+    }
+
+    if (filters.costs && filters.costs.length > 0) {
+      params.set('costs', encodeFilterParam(filters.costs));
+      setLocalCosts(filters.costs);
+    } else {
+      params.delete('costs');
+      setLocalCosts([]);
+    }
+
+    params.delete('category');
+    params.delete('region');
+    params.delete('riskLevel');
+    params.delete('cost');
+
+    const basePath = pathname || '/search';
+    router.push(`${basePath}?${params.toString()}`);
+  };
+
 
   const handleSortChange = (field: string, order: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -49,51 +163,96 @@ export default function SearchFilters({
     router.push(`${basePath}?${params.toString()}`);
   };
 
+  const hasActiveFilters =
+    localCategories.length > 0 ||
+    localRegions.length > 0 ||
+    localRiskLevels.length > 0 ||
+    localCosts.length > 0 ||
+    currentCategory ||
+    currentRegion ||
+    currentRiskLevel ||
+    currentCost;
+
   return (
     <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mb-8">
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Filters</h3>
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Filters</h3>
+        {hasActiveFilters && (
+          <button
+            onClick={handleClearFilters}
+            className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
+          >
+            Clear All
+          </button>
+        )}
+      </div>
+
+      <SavedFiltersPanel
+        currentFilters={{
+          categories: localCategories,
+          regions: localRegions,
+          riskLevels: localRiskLevels,
+          costs: localCosts,
+        }}
+        onLoadPreset={handleLoadPreset}
+      />
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
         <div>
           <label
             htmlFor="category-filter"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
           >
-            Category
+            Categories
           </label>
-          <select
-            id="category-filter"
-            value={currentCategory || ''}
-            onChange={(e) => handleFilterChange('category', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">All Categories</option>
+          <div className="max-h-40 overflow-y-auto border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 p-2">
             {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
+              <label
+                key={category.id}
+                className="flex items-center gap-2 py-1 text-sm text-gray-900 dark:text-gray-100 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 px-2 rounded"
+              >
+                <input
+                  type="checkbox"
+                  checked={localCategories.includes(category.id)}
+                  onChange={(e) =>
+                    handleMultiSelectChange('categories', category.id, e.target.checked)
+                  }
+                  className="rounded border-gray-300 dark:border-gray-700"
+                />
+                <span>{category.name}</span>
+              </label>
             ))}
-          </select>
+          </div>
         </div>
         <div>
           <label
             htmlFor="region-filter"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
           >
-            Region
+            Regions
           </label>
-          <select
-            id="region-filter"
-            value={currentRegion || ''}
-            onChange={(e) => handleFilterChange('region', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">All Regions</option>
-            <option value="US">United States</option>
-            <option value="US-Federal">US Federal</option>
-            <option value="US-State">US State</option>
-            <option value="Global">Global</option>
-            <option value="International">International</option>
-          </select>
+          <div className="max-h-40 overflow-y-auto border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 p-2">
+            {[
+              { value: 'US', label: 'United States' },
+              { value: 'US-Federal', label: 'US Federal' },
+              { value: 'US-State', label: 'US State' },
+              { value: 'Global', label: 'Global' },
+              { value: 'International', label: 'International' },
+            ].map((region) => (
+              <label
+                key={region.value}
+                className="flex items-center gap-2 py-1 text-sm text-gray-900 dark:text-gray-100 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 px-2 rounded"
+              >
+                <input
+                  type="checkbox"
+                  checked={localRegions.includes(region.value)}
+                  onChange={(e) => handleMultiSelectChange('regions', region.value, e.target.checked)}
+                  className="rounded border-gray-300 dark:border-gray-700"
+                />
+                <span>{region.label}</span>
+              </label>
+            ))}
+          </div>
         </div>
 
         <div>
@@ -101,20 +260,31 @@ export default function SearchFilters({
             htmlFor="risk-filter"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
           >
-            Risk Level
+            Risk Levels
           </label>
-          <select
-            id="risk-filter"
-            value={currentRiskLevel || ''}
-            onChange={(e) => handleFilterChange('riskLevel', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">All Risk Levels</option>
-            <option value="none">None</option>
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-          </select>
+          <div className="max-h-40 overflow-y-auto border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 p-2">
+            {[
+              { value: 'none', label: 'None' },
+              { value: 'low', label: 'Low' },
+              { value: 'medium', label: 'Medium' },
+              { value: 'high', label: 'High' },
+            ].map((risk) => (
+              <label
+                key={risk.value}
+                className="flex items-center gap-2 py-1 text-sm text-gray-900 dark:text-gray-100 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 px-2 rounded"
+              >
+                <input
+                  type="checkbox"
+                  checked={localRiskLevels.includes(risk.value)}
+                  onChange={(e) =>
+                    handleMultiSelectChange('riskLevels', risk.value, e.target.checked)
+                  }
+                  className="rounded border-gray-300 dark:border-gray-700"
+                />
+                <span>{risk.label}</span>
+              </label>
+            ))}
+          </div>
         </div>
 
         <div>
@@ -122,19 +292,28 @@ export default function SearchFilters({
             htmlFor="cost-filter"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
           >
-            Cost
+            Costs
           </label>
-          <select
-            id="cost-filter"
-            value={currentCost || ''}
-            onChange={(e) => handleFilterChange('cost', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">All Costs</option>
-            <option value="free">Free</option>
-            <option value="freemium">Freemium</option>
-            <option value="paid">Paid</option>
-          </select>
+          <div className="max-h-40 overflow-y-auto border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 p-2">
+            {[
+              { value: 'free', label: 'Free' },
+              { value: 'freemium', label: 'Freemium' },
+              { value: 'paid', label: 'Paid' },
+            ].map((cost) => (
+              <label
+                key={cost.value}
+                className="flex items-center gap-2 py-1 text-sm text-gray-900 dark:text-gray-100 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 px-2 rounded"
+              >
+                <input
+                  type="checkbox"
+                  checked={localCosts.includes(cost.value)}
+                  onChange={(e) => handleMultiSelectChange('costs', cost.value, e.target.checked)}
+                  className="rounded border-gray-300 dark:border-gray-700"
+                />
+                <span>{cost.label}</span>
+              </label>
+            ))}
+          </div>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -134,7 +134,7 @@ export function searchResources(resources: Resource[], query: string): Resource[
 }
 
 /**
- * Filter resources by multiple criteria
+ * Filter resources by multiple criteria (legacy single-select)
  */
 export interface ResourceFilters {
   category?: string;

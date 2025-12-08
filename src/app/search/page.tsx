@@ -7,6 +7,11 @@ import {
   type ResourceFilters,
   type SortConfig,
 } from '@/lib/search';
+import {
+  filterResourcesMultiSelect,
+  parseFilterParam,
+  type MultiSelectFilters,
+} from '@/lib/filtering';
 import ResourceList from '@/components/ResourceList';
 import CategoryList from '@/components/CategoryList';
 import SearchFilters from '@/components/SearchFilters';
@@ -19,6 +24,10 @@ interface SearchPageProps {
     region?: string;
     riskLevel?: string;
     cost?: string;
+    categories?: string;
+    regions?: string;
+    riskLevels?: string;
+    costs?: string;
     sort?: string;
     order?: 'asc' | 'desc';
   }>;
@@ -36,6 +45,11 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const sortField = params.sort;
   const sortOrder = params.order || 'asc';
 
+  const categoriesParam = params.categories;
+  const regionsParam = params.regions;
+  const riskLevelsParam = params.riskLevels;
+  const costsParam = params.costs;
+
   const allResources = getResources();
   const allCategories = getCategories();
 
@@ -46,13 +60,33 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
       ? searchCategories(allCategories, query)
       : [];
 
-  const filters: ResourceFilters = {};
-  if (region) filters.region = region;
-  if (riskLevel) filters.riskLevel = riskLevel;
-  if (cost) filters.cost = cost;
+  const multiSelectFilters: MultiSelectFilters = {};
+  if (categoriesParam) {
+    multiSelectFilters.categories = parseFilterParam(categoriesParam);
+  }
+  if (regionsParam) {
+    multiSelectFilters.regions = parseFilterParam(regionsParam);
+  }
+  if (riskLevelsParam) {
+    multiSelectFilters.riskLevels = parseFilterParam(riskLevelsParam);
+  }
+  if (costsParam) {
+    multiSelectFilters.costs = parseFilterParam(costsParam);
+  }
 
-  if (Object.keys(filters).length > 0) {
-    resources = filterResources(resources, filters);
+  const hasMultiSelect = Object.keys(multiSelectFilters).length > 0;
+
+  if (hasMultiSelect) {
+    resources = filterResourcesMultiSelect(resources, multiSelectFilters);
+  } else {
+    const legacyFilters: ResourceFilters = {};
+    if (region) legacyFilters.region = region;
+    if (riskLevel) legacyFilters.riskLevel = riskLevel;
+    if (cost) legacyFilters.cost = cost;
+
+    if (Object.keys(legacyFilters).length > 0) {
+      resources = filterResources(resources, legacyFilters);
+    }
   }
 
   const sortConfig: SortConfig | null =
@@ -80,6 +114,10 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             currentRegion={region}
             currentRiskLevel={riskLevel}
             currentCost={cost}
+            currentCategories={multiSelectFilters.categories}
+            currentRegions={multiSelectFilters.regions}
+            currentRiskLevels={multiSelectFilters.riskLevels}
+            currentCosts={multiSelectFilters.costs}
             currentSort={sortField}
             currentOrder={sortOrder}
           />

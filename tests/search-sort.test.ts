@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { sortResources, type SortConfig, type Resource } from '@/lib/search';
+import { sortResources, type SortConfig } from '@/lib/search';
+import type { Resource } from '@/lib/types';
 
 describe('Search Result Sorting', () => {
   const mockResources: Resource[] = [
