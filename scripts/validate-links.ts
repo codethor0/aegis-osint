@@ -128,6 +128,7 @@ async function validateAllLinks(): Promise<void> {
 
     for (let i = 0; i < urlArray.length; i++) {
       const url = urlArray[i];
+      if (!url) continue;
       process.stdout.write(`\rValidating ${i + 1}/${urlArray.length}: ${url.substring(0, 50)}...`);
 
       const result = await validateUrl(url);
