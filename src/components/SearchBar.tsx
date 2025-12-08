@@ -24,6 +24,7 @@ export default function SearchBar() {
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search resources and categories..."
           className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          maxLength={1000}
         />
         <button
           type="submit"
@@ -32,6 +33,9 @@ export default function SearchBar() {
           Search
         </button>
       </div>
+      <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
+        Use AND/OR operators or quotes for exact phrases
+      </p>
     </form>
   );
 }

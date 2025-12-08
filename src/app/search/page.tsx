@@ -1,12 +1,16 @@
 import { getResources, getCategories } from '@/lib/data';
-import { searchResources, searchCategories } from '@/lib/search';
+import { searchResources, searchCategories, filterResources, type ResourceFilters } from '@/lib/search';
 import ResourceList from '@/components/ResourceList';
 import CategoryList from '@/components/CategoryList';
+import SearchFilters from '@/components/SearchFilters';
 
 interface SearchPageProps {
   searchParams: Promise<{
     q?: string;
     type?: 'resources' | 'categories' | 'all';
+    region?: string;
+    riskLevel?: string;
+    cost?: string;
   }>;
 }
 
@@ -16,16 +20,28 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const params = await searchParams;
   const query = params.q || '';
   const searchType = params.type || 'all';
+  const region = params.region;
+  const riskLevel = params.riskLevel;
+  const cost = params.cost;
 
   const allResources = getResources();
   const allCategories = getCategories();
 
-  const resources =
+  let resources =
     searchType === 'all' || searchType === 'resources' ? searchResources(allResources, query) : [];
   const categories =
     searchType === 'all' || searchType === 'categories'
       ? searchCategories(allCategories, query)
       : [];
+
+  const filters: ResourceFilters = {};
+  if (region) filters.region = region;
+  if (riskLevel) filters.riskLevel = riskLevel;
+  if (cost) filters.cost = cost;
+
+  if (Object.keys(filters).length > 0) {
+    resources = filterResources(resources, filters);
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -36,10 +52,23 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         )}
       </div>
 
+      {searchType === 'all' || searchType === 'resources' ? (
+        <div className="mb-8">
+          <SearchFilters
+            currentRegion={region}
+            currentRiskLevel={riskLevel}
+            currentCost={cost}
+          />
+        </div>
+      ) : null}
+
       {!query && (
         <div className="text-center py-12">
           <p className="text-gray-600 dark:text-gray-400">
             Enter a search query to find resources and categories.
+          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">
+            Use AND/OR operators for advanced search. Use quotes for exact phrases.
           </p>
         </div>
       )}

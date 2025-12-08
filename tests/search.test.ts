@@ -81,6 +81,59 @@ describe('Search Utilities', () => {
         }
       }
     });
+
+    it('should support AND operator', () => {
+      const categories = getCategories();
+      if (categories.length > 0) {
+        const firstCategory = categories[0];
+        if (firstCategory && firstCategory.name.length > 5) {
+          const words = firstCategory.name.split(' ').filter((w) => w.length > 2);
+          if (words.length >= 2 && words[0] && words[1]) {
+            const query = `${words[0]} AND ${words[1]}`;
+            const results = searchCategories(categories, query);
+            expect(results.length).toBeGreaterThan(0);
+            results.forEach((cat) => {
+              const lowerName = cat.name.toLowerCase();
+              expect(lowerName.includes(words[0]!.toLowerCase())).toBe(true);
+              expect(lowerName.includes(words[1]!.toLowerCase())).toBe(true);
+            });
+          }
+        }
+      }
+    });
+
+    it('should support OR operator', () => {
+      const categories = getCategories();
+      if (categories.length >= 2) {
+        const firstCategory = categories[0];
+        const secondCategory = categories[1];
+        if (firstCategory && secondCategory) {
+          const query = `${firstCategory.name.substring(0, 3)} OR ${secondCategory.name.substring(0, 3)}`;
+          const results = searchCategories(categories, query);
+          expect(results.length).toBeGreaterThan(0);
+        }
+      }
+    });
+
+    it('should support quoted phrases', () => {
+      const categories = getCategories();
+      if (categories.length > 0) {
+        const firstCategory = categories[0];
+        if (firstCategory && firstCategory.name.length > 5) {
+          const phrase = firstCategory.name.substring(0, 5);
+          const query = `"${phrase}"`;
+          const results = searchCategories(categories, query);
+          expect(results.length).toBeGreaterThan(0);
+        }
+      }
+    });
+
+    it('should handle queries exceeding MAX_QUERY_LENGTH', () => {
+      const categories = getCategories();
+      const longQuery = 'a'.repeat(2000);
+      const results = searchCategories(categories, longQuery);
+      expect(results.length).toBe(0);
+    });
   });
 
   describe('searchResources', () => {
@@ -148,6 +201,59 @@ describe('Search Utilities', () => {
         resources,
         'nonexistent-query-that-will-never-match-anything-12345'
       );
+      expect(results.length).toBe(0);
+    });
+
+    it('should support AND operator', () => {
+      const resources = getResources();
+      if (resources.length > 0) {
+        const firstResource = resources[0];
+        if (firstResource && firstResource.name.length > 5) {
+          const words = firstResource.name.split(' ').filter((w) => w.length > 2);
+          if (words.length >= 2 && words[0] && words[1]) {
+            const query = `${words[0]} AND ${words[1]}`;
+            const results = searchResources(resources, query);
+            expect(results.length).toBeGreaterThan(0);
+            results.forEach((res) => {
+              const lowerName = res.name.toLowerCase();
+              expect(lowerName.includes(words[0]!.toLowerCase())).toBe(true);
+              expect(lowerName.includes(words[1]!.toLowerCase())).toBe(true);
+            });
+          }
+        }
+      }
+    });
+
+    it('should support OR operator', () => {
+      const resources = getResources();
+      if (resources.length >= 2) {
+        const firstResource = resources[0];
+        const secondResource = resources[1];
+        if (firstResource && secondResource) {
+          const query = `${firstResource.name.substring(0, 3)} OR ${secondResource.name.substring(0, 3)}`;
+          const results = searchResources(resources, query);
+          expect(results.length).toBeGreaterThan(0);
+        }
+      }
+    });
+
+    it('should support quoted phrases', () => {
+      const resources = getResources();
+      if (resources.length > 0) {
+        const firstResource = resources[0];
+        if (firstResource && firstResource.name.length > 5) {
+          const phrase = firstResource.name.substring(0, 5);
+          const query = `"${phrase}"`;
+          const results = searchResources(resources, query);
+          expect(results.length).toBeGreaterThan(0);
+        }
+      }
+    });
+
+    it('should handle queries exceeding MAX_QUERY_LENGTH', () => {
+      const resources = getResources();
+      const longQuery = 'a'.repeat(2000);
+      const results = searchResources(resources, longQuery);
       expect(results.length).toBe(0);
     });
   });
@@ -256,6 +362,34 @@ describe('Search Utilities', () => {
       };
       const results = filterResources(resources, filters);
       results.forEach((resource) => {
+        expect(resource.cost).toBe('free');
+        expect(resource.risk_level).toBe('low');
+      });
+    });
+
+    it('should filter by region', () => {
+      const resources = getResources();
+      const usResources = resources.filter((r) => r.region === 'US');
+      if (usResources.length > 0) {
+        const filters: ResourceFilters = { region: 'US' };
+        const results = filterResources(resources, filters);
+        expect(results.length).toBe(usResources.length);
+        results.forEach((resource) => {
+          expect(resource.region).toBe('US');
+        });
+      }
+    });
+
+    it('should combine region with other filters', () => {
+      const resources = getResources();
+      const filters: ResourceFilters = {
+        region: 'US',
+        cost: 'free',
+        riskLevel: 'low',
+      };
+      const results = filterResources(resources, filters);
+      results.forEach((resource) => {
+        expect(resource.region).toBe('US');
         expect(resource.cost).toBe('free');
         expect(resource.risk_level).toBe('low');
       });
