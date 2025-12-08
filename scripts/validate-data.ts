@@ -333,7 +333,7 @@ function validateJsonFile(filePath: string): ValidationResult {
         }
 
         // Validate each category
-        const categoryErrors = validateCategory(category, index, filePath);
+        const categoryErrors = validateCategory(category, index);
         result.errors.push(...categoryErrors);
         if (categoryErrors.length > 0) {
           result.valid = false;
@@ -359,7 +359,7 @@ function validateJsonFile(filePath: string): ValidationResult {
         }
 
         // Validate each resource
-        const resourceErrors = validateResource(resource, index, filePath);
+        const resourceErrors = validateResource(resource, index);
         result.errors.push(...resourceErrors);
         if (resourceErrors.length > 0) {
           result.valid = false;
