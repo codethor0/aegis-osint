@@ -24,7 +24,7 @@ An open-source OSINT (Open Source Intelligence) framework designed to provide se
 
 ## Overview
 
-The Aegis-OSINT Framework is a meticulously organized knowledgebase and optional web-based toolkit for conducting legal, ethical open-source intelligence research. The framework focuses primarily on U.S.-based resources while maintaining global applicability, providing researchers with:
+The Aegis-OSINT Framework is an organized knowledgebase and optional web-based toolkit for conducting legal, ethical open-source intelligence research. The framework focuses primarily on U.S.-based resources while maintaining global applicability, providing researchers with:
 
 - **Resource Catalog**: Collection of OSINT tools, databases, and services
 - **Organized Categories**: Resources organized by intelligence type and use case
