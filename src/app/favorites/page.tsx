@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { getBookmarks, clearBookmarks } from '@/lib/bookmarks';
+import { getBookmarks, clearBookmarks, downloadBookmarksAsJSON } from '@/lib/bookmarks';
 import { getResources } from '@/lib/data';
 import { filterResources, type ResourceFilters } from '@/lib/search';
 import type { Resource } from '@/lib/types';
@@ -57,6 +57,13 @@ export default function FavoritesPage() {
     }
   };
 
+  const handleExport = () => {
+    if (bookmarkedResources.length === 0) {
+      return;
+    }
+    downloadBookmarksAsJSON(bookmarkedResources);
+  };
+
   if (!mounted) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -83,12 +90,20 @@ export default function FavoritesPage() {
             </p>
           </div>
           {bookmarkedResources.length > 0 && (
-            <button
-              onClick={handleClearAll}
-              className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-            >
-              Clear All
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={handleExport}
+                className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+              >
+                Export JSON
+              </button>
+              <button
+                onClick={handleClearAll}
+                className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+              >
+                Clear All
+              </button>
+            </div>
           )}
         </div>
       </div>
