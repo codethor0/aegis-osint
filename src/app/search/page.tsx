@@ -1,5 +1,12 @@
 import { getResources, getCategories } from '@/lib/data';
-import { searchResources, searchCategories, filterResources, type ResourceFilters } from '@/lib/search';
+import {
+  searchResources,
+  searchCategories,
+  filterResources,
+  sortResources,
+  type ResourceFilters,
+  type SortConfig,
+} from '@/lib/search';
 import ResourceList from '@/components/ResourceList';
 import CategoryList from '@/components/CategoryList';
 import SearchFilters from '@/components/SearchFilters';
@@ -12,6 +19,8 @@ interface SearchPageProps {
     region?: string;
     riskLevel?: string;
     cost?: string;
+    sort?: string;
+    order?: 'asc' | 'desc';
   }>;
 }
 
@@ -24,6 +33,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const region = params.region;
   const riskLevel = params.riskLevel;
   const cost = params.cost;
+  const sortField = params.sort;
+  const sortOrder = params.order || 'asc';
 
   const allResources = getResources();
   const allCategories = getCategories();
@@ -44,6 +55,15 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     resources = filterResources(resources, filters);
   }
 
+  const sortConfig: SortConfig | null =
+    sortField && ['name', 'category', 'risk', 'date'].includes(sortField)
+      ? { field: sortField as SortConfig['field'], order: sortOrder }
+      : null;
+
+  if (sortConfig) {
+    resources = sortResources(resources, sortConfig);
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="mb-8">
@@ -60,6 +80,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             currentRegion={region}
             currentRiskLevel={riskLevel}
             currentCost={cost}
+            currentSort={sortField}
+            currentOrder={sortOrder}
           />
         </div>
       ) : null}

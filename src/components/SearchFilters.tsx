@@ -8,6 +8,8 @@ interface SearchFiltersProps {
   currentRegion?: string;
   currentRiskLevel?: string;
   currentCost?: string;
+  currentSort?: string;
+  currentOrder?: 'asc' | 'desc';
 }
 
 export default function SearchFilters({
@@ -15,6 +17,8 @@ export default function SearchFilters({
   currentRegion,
   currentRiskLevel,
   currentCost,
+  currentSort,
+  currentOrder,
 }: SearchFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -32,10 +36,23 @@ export default function SearchFilters({
     router.push(`${basePath}?${params.toString()}`);
   };
 
+  const handleSortChange = (field: string, order: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (field === '') {
+      params.delete('sort');
+      params.delete('order');
+    } else {
+      params.set('sort', field);
+      params.set('order', order);
+    }
+    const basePath = pathname || '/search';
+    router.push(`${basePath}?${params.toString()}`);
+  };
+
   return (
     <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mb-8">
       <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Filters</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
         <div>
           <label
             htmlFor="category-filter"
@@ -119,6 +136,58 @@ export default function SearchFilters({
             <option value="paid">Paid</option>
           </select>
         </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label
+            htmlFor="sort-filter"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+          >
+            Sort By
+          </label>
+          <select
+            id="sort-filter"
+            value={currentSort || ''}
+            onChange={(e) => {
+              const field = e.target.value;
+              if (field === '') {
+                handleSortChange('', 'asc');
+              } else {
+                handleSortChange(field, currentOrder || 'asc');
+              }
+            }}
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">No Sorting</option>
+            <option value="name">Name</option>
+            <option value="category">Category</option>
+            <option value="risk">Risk Level</option>
+            <option value="date">Date Added</option>
+          </select>
+        </div>
+        {currentSort && (
+          <div>
+            <label
+              htmlFor="order-filter"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            >
+              Order
+            </label>
+            <select
+              id="order-filter"
+              value={currentOrder || 'asc'}
+              onChange={(e) => {
+                if (currentSort) {
+                  handleSortChange(currentSort, e.target.value);
+                }
+              }}
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="asc">Ascending</option>
+              <option value="desc">Descending</option>
+            </select>
+          </div>
+        )}
       </div>
     </div>
   );
