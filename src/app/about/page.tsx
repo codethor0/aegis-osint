@@ -52,7 +52,7 @@ export default function AboutPage() {
             <li>Detailed metadata for each resource</li>
             <li>Search and filtering capabilities</li>
             <li>Verification system for resource accuracy</li>
-            <li>Modern web interface for browsing and searching</li>
+            <li>Web interface for browsing and searching</li>
           </ul>
         </section>
 

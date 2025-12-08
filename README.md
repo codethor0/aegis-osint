@@ -30,7 +30,7 @@ The Aegis-OSINT Framework is an organized knowledgebase and optional web-based t
 - **Organized Categories**: Resources organized by intelligence type and use case
 - **Methodology Guides**: Best practices and research methodologies
 - **Legal Compliance**: Strict adherence to legal and ethical guidelines
-- **Modern Web Interface**: Optional Next.js-based portal for browsing and searching resources
+- **Web Interface**: Optional Next.js-based portal for browsing and searching resources
 
 ### Core Principles
 
@@ -70,7 +70,7 @@ The Aegis-OSINT Framework is an organized knowledgebase and optional web-based t
 - Node.js 18.0 or higher
 - npm, yarn, or pnpm package manager
 - Git (for cloning the repository)
-- Modern web browser (for web application)
+- Web browser (for web application)
 
 ### Quick Start
 
