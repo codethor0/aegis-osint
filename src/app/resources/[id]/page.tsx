@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { getResourceById, getCategoryById, getAllResourceIds } from '@/lib/data';
 import { generateMetadata } from './metadata';
 import { isValidUrl, validateUrls } from '@/lib/url-validation';
+import BookmarkButton from '@/components/BookmarkButton';
 
 export { generateMetadata };
 
@@ -42,10 +43,17 @@ export default async function ResourceDetailPage({ params }: ResourcePageProps) 
             ← Back to {category.name}
           </Link>
         )}
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-          {resource.name}
-        </h1>
-        <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">{resource.description}</p>
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex-1">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+              {resource.name}
+            </h1>
+            <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">{resource.description}</p>
+          </div>
+          <div className="flex-shrink-0">
+            <BookmarkButton resourceId={resource.id} size="lg" />
+          </div>
+        </div>
       </div>
 
       <div className="space-y-8">

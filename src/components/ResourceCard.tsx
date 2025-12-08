@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Resource } from '@/lib/types';
+import BookmarkButton from './BookmarkButton';
 
 interface ResourceCardProps {
   resource: Resource;
@@ -7,16 +8,17 @@ interface ResourceCardProps {
 
 export default function ResourceCard({ resource }: ResourceCardProps) {
   return (
-    <Link
-      href={`/resources/${resource.id}`}
-      className="block p-6 border border-gray-200 dark:border-gray-800 rounded-lg hover:border-gray-300 dark:hover:border-gray-700 transition-colors bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      aria-label={`View ${resource.name} resource details`}
-    >
-      <div className="flex items-start justify-between mb-2">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 flex-1">
-          {resource.name}
-        </h3>
-      </div>
+    <div className="relative">
+      <Link
+        href={`/resources/${resource.id}`}
+        className="block p-6 border border-gray-200 dark:border-gray-800 rounded-lg hover:border-gray-300 dark:hover:border-gray-700 transition-colors bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        aria-label={`View ${resource.name} resource details`}
+      >
+        <div className="flex items-start justify-between mb-2">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 flex-1">
+            {resource.name}
+          </h3>
+        </div>
       <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
         {resource.description}
       </p>
@@ -63,6 +65,10 @@ export default function ResourceCard({ resource }: ResourceCardProps) {
           ))}
         </div>
       )}
-    </Link>
+      </Link>
+      <div className="absolute top-4 right-4">
+        <BookmarkButton resourceId={resource.id} size="md" />
+      </div>
+    </div>
   );
 }
