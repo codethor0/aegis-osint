@@ -47,16 +47,18 @@ export default async function CategoryDetailPage({ params }: CategoryPageProps) 
         {category.long_description && (
           <p className="text-gray-500 dark:text-gray-500 mb-4">{category.long_description}</p>
         )}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {category.tags.map((tag) => (
-            <span
-              key={tag}
-              className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
+        {category.tags && category.tags.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {category.tags.map((tag) => (
+              <span
+                key={tag}
+                className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
         <div className="text-sm text-gray-500 dark:text-gray-500">Region: {category.region}</div>
       </div>
 

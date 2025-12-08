@@ -19,15 +19,17 @@ export default function CategoryCard({ category }: CategoryCardProps) {
         {category.description}
       </p>
       <div className="flex flex-wrap gap-2">
-        {category.tags.slice(0, 3).map((tag) => (
-          <span
-            key={tag}
-            className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded"
-          >
-            {tag}
-          </span>
-        ))}
-        {category.tags.length > 3 && (
+        {category.tags &&
+          category.tags.length > 0 &&
+          category.tags.slice(0, 3).map((tag) => (
+            <span
+              key={tag}
+              className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded"
+            >
+              {tag}
+            </span>
+          ))}
+        {category.tags && category.tags.length > 3 && (
           <span className="px-2 py-1 text-xs text-gray-500 dark:text-gray-500">
             +{category.tags.length - 3} more
           </span>

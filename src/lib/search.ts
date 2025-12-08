@@ -13,7 +13,10 @@ export function searchCategories(categories: Category[], query: string): Categor
   return categories.filter((category) => {
     const nameMatch = category.name.toLowerCase().includes(lowerQuery);
     const descMatch = category.description.toLowerCase().includes(lowerQuery);
-    const tagMatch = category.tags.some((tag) => tag.toLowerCase().includes(lowerQuery));
+    const tagMatch =
+      category.tags && category.tags.length > 0
+        ? category.tags.some((tag) => tag.toLowerCase().includes(lowerQuery))
+        : false;
 
     return nameMatch || descMatch || tagMatch;
   });
@@ -32,7 +35,10 @@ export function searchResources(resources: Resource[], query: string): Resource[
   return resources.filter((resource) => {
     const nameMatch = resource.name.toLowerCase().includes(lowerQuery);
     const descMatch = resource.description.toLowerCase().includes(lowerQuery);
-    const tagMatch = resource.tags.some((tag) => tag.toLowerCase().includes(lowerQuery));
+    const tagMatch =
+      resource.tags && resource.tags.length > 0
+        ? resource.tags.some((tag) => tag.toLowerCase().includes(lowerQuery))
+        : false;
     const typeMatch = resource.type.toLowerCase().includes(lowerQuery);
 
     return nameMatch || descMatch || tagMatch || typeMatch;
