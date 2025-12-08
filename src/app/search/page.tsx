@@ -3,6 +3,7 @@ import { searchResources, searchCategories, filterResources, type ResourceFilter
 import ResourceList from '@/components/ResourceList';
 import CategoryList from '@/components/CategoryList';
 import SearchFilters from '@/components/SearchFilters';
+import SearchHistoryClient from '@/components/SearchHistoryClient';
 
 interface SearchPageProps {
   searchParams: Promise<{
@@ -70,6 +71,9 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">
             Use AND/OR operators for advanced search. Use quotes for exact phrases.
           </p>
+          <div className="mt-8">
+            <SearchHistoryClient />
+          </div>
         </div>
       )}
 
