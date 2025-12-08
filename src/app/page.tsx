@@ -15,8 +15,8 @@ export default function HomePage() {
           Open Intelligence for a Networked World
         </p>
         <p className="text-gray-500 dark:text-gray-500 max-w-2xl mx-auto">
-          A comprehensive, open-source OSINT framework providing organized access to publicly
-          available intelligence resources, tools, and methodologies.
+          An open-source OSINT framework providing organized access to publicly available
+          intelligence resources, tools, and methodologies.
         </p>
       </header>
 

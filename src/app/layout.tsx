@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: 'Aegis-OSINT Framework',
-  description: 'Open Intelligence for a Networked World - A comprehensive OSINT framework',
+  description: 'Open Intelligence for a Networked World - An OSINT framework',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

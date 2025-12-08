@@ -91,7 +91,7 @@ function isValidKebabCase(id: string): boolean {
 /**
  * Validate category object
  */
-function validateCategory(category: any, index: number, filePath: string): string[] {
+function validateCategory(category: any, index: number): string[] {
   const errors: string[] = [];
 
   // Required fields
@@ -167,7 +167,7 @@ function validateCategory(category: any, index: number, filePath: string): strin
 /**
  * Validate resource object
  */
-function validateResource(resource: any, index: number, filePath: string): string[] {
+function validateResource(resource: any, index: number): string[] {
   const errors: string[] = [];
 
   // Required fields

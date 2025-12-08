@@ -11,10 +11,9 @@ export default function AboutPage() {
         <section>
           <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Overview</h2>
           <p className="text-gray-600 dark:text-gray-400 mb-4">
-            The Aegis-OSINT Framework is a comprehensive, open-source OSINT (Open Source
-            Intelligence) framework designed to provide security professionals, researchers, and
-            investigators with organized access to publicly available intelligence resources, tools,
-            and methodologies.
+            The Aegis-OSINT Framework is an open-source OSINT (Open Source Intelligence) framework
+            designed to provide security professionals, researchers, and investigators with
+            organized access to publicly available intelligence resources, tools, and methodologies.
           </p>
           <p className="text-gray-600 dark:text-gray-400">
             The framework focuses primarily on U.S.-based resources while maintaining global

@@ -6,7 +6,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
 
-A comprehensive, open-source OSINT (Open Source Intelligence) framework designed to provide security professionals, researchers, and investigators with organized access to publicly available intelligence resources, tools, and methodologies.
+An open-source OSINT (Open Source Intelligence) framework designed to provide security professionals, researchers, and investigators with organized access to publicly available intelligence resources, tools, and methodologies.
 
 ## Table of Contents
 
@@ -26,7 +26,7 @@ A comprehensive, open-source OSINT (Open Source Intelligence) framework designed
 
 The Aegis-OSINT Framework is a meticulously organized knowledgebase and optional web-based toolkit for conducting legal, ethical open-source intelligence research. The framework focuses primarily on U.S.-based resources while maintaining global applicability, providing researchers with:
 
-- **Comprehensive Resource Catalog**: Curated collection of OSINT tools, databases, and services
+- **Resource Catalog**: Collection of OSINT tools, databases, and services
 - **Organized Categories**: Resources organized by intelligence type and use case
 - **Methodology Guides**: Best practices and research methodologies
 - **Legal Compliance**: Strict adherence to legal and ethical guidelines
@@ -45,8 +45,8 @@ The Aegis-OSINT Framework is a meticulously organized knowledgebase and optional
 ### Resource Management
 
 - **Categorized Resources**: OSINT tools organized by category and use case
-- **Detailed Metadata**: Comprehensive information for each resource including legal status, access requirements, and capabilities
-- **Search and Filter**: Powerful search and filtering capabilities
+- **Detailed Metadata**: Information for each resource including legal status, access requirements, and capabilities
+- **Search and Filter**: Search and filtering functionality
 - **Verification System**: Resources are verified and regularly updated
 
 ### Documentation
@@ -59,7 +59,7 @@ The Aegis-OSINT Framework is a meticulously organized knowledgebase and optional
 ### Web Application (Optional)
 
 - **Modern Interface**: Clean, professional web interface built with Next.js
-- **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
+- **Responsive Design**: Works on desktop, tablet, and mobile devices
 - **Fast Performance**: Optimized for speed with server-side rendering
 - **Accessible**: Built with accessibility best practices
 
@@ -155,7 +155,7 @@ The web application provides several ways to explore OSINT resources:
 1. **Browse by Category**: Navigate through organized OSINT categories
 2. **Search**: Use the search functionality to find specific resources
 3. **Filter**: Apply filters by category, type, cost, and access level
-4. **View Details**: Click on any resource to see comprehensive information
+4. **View Details**: Click on any resource to view details
 
 ### Documentation
 

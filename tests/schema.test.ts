@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest';
 import { getCategories, getResources, validateDataIntegrity } from '@/lib/data';
-import type { Category, Resource } from '@/lib/types';
 
 describe('Schema Validation', () => {
   describe('Category Schema', () => {
