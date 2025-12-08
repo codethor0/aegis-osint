@@ -58,7 +58,7 @@ The Aegis-OSINT Framework is a meticulously organized knowledgebase and optional
 
 ### Web Application (Optional)
 
-- **Modern Interface**: Clean, professional web interface built with Next.js
+- **Web Interface**: Professional web interface built with Next.js
 - **Responsive Design**: Works on desktop, tablet, and mobile devices
 - **Fast Performance**: Server-side rendering for speed
 - **Accessible**: Built with accessibility best practices
