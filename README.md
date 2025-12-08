@@ -51,7 +51,7 @@ The Aegis-OSINT Framework is a meticulously organized knowledgebase and optional
 
 ### Documentation
 
-- **Category Guides**: In-depth guides for each OSINT category
+- **Category Guides**: Guides for each OSINT category
 - **Methodology Documentation**: Research methodologies and best practices
 - **Legal Guidelines**: Legal and ethical considerations for OSINT research
 - **Getting Started Guides**: Tutorials for new users
@@ -60,7 +60,7 @@ The Aegis-OSINT Framework is a meticulously organized knowledgebase and optional
 
 - **Modern Interface**: Clean, professional web interface built with Next.js
 - **Responsive Design**: Works on desktop, tablet, and mobile devices
-- **Fast Performance**: Optimized for speed with server-side rendering
+- **Fast Performance**: Server-side rendering for speed
 - **Accessible**: Built with accessibility best practices
 
 ## Getting Started
