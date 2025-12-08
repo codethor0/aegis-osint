@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { getBookmarks, clearBookmarks, downloadBookmarksAsJSON } from '@/lib/bookmarks';
+import { getBookmarks, clearBookmarks, downloadBookmarksAsJSON, importBookmarksFromJSON } from '@/lib/bookmarks';
 import { getResources } from '@/lib/data';
 import { filterResources, type ResourceFilters } from '@/lib/search';
 import type { Resource } from '@/lib/types';
@@ -14,6 +14,8 @@ export default function FavoritesPage() {
   const [bookmarkedResources, setBookmarkedResources] = useState<Resource[]>([]);
   const [filteredResources, setFilteredResources] = useState<Resource[]>([]);
   const [mounted, setMounted] = useState(false);
+  const [importMessage, setImportMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const category = searchParams.get('category') || undefined;
   const region = searchParams.get('region') || undefined;
@@ -64,6 +66,61 @@ export default function FavoritesPage() {
     downloadBookmarksAsJSON(bookmarkedResources);
   };
 
+  const handleImportClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) {
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setImportMessage({ type: 'error', text: 'File is too large. Maximum size is 5MB.' });
+      return;
+    }
+
+    if (!file.name.endsWith('.json')) {
+      setImportMessage({ type: 'error', text: 'Invalid file type. Please select a JSON file.' });
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const text = event.target?.result;
+      if (typeof text !== 'string') {
+        setImportMessage({ type: 'error', text: 'Failed to read file.' });
+        return;
+      }
+
+      const result = importBookmarksFromJSON(text);
+      if (result.success) {
+        if (result.importedCount > 0) {
+          setImportMessage({
+            type: 'success',
+            text: `Import successful. ${result.importedCount} bookmark${result.importedCount !== 1 ? 's' : ''} added.${result.skippedCount > 0 ? ` ${result.skippedCount} duplicate${result.skippedCount !== 1 ? 's' : ''} skipped.` : ''}`,
+          });
+        } else {
+          setImportMessage({ type: 'error', text: 'No new bookmarks found. All bookmarks already exist.' });
+        }
+      } else {
+        setImportMessage({ type: 'error', text: result.error || 'Import failed.' });
+      }
+
+      setTimeout(() => {
+        setImportMessage(null);
+      }, 5000);
+    };
+
+    reader.onerror = () => {
+      setImportMessage({ type: 'error', text: 'Failed to read file.' });
+    };
+
+    reader.readAsText(file);
+    e.target.value = '';
+  };
+
   if (!mounted) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -98,6 +155,12 @@ export default function FavoritesPage() {
                 Export JSON
               </button>
               <button
+                onClick={handleImportClick}
+                className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+              >
+                Import JSON
+              </button>
+              <button
                 onClick={handleClearAll}
                 className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
               >
@@ -105,8 +168,36 @@ export default function FavoritesPage() {
               </button>
             </div>
           )}
+          {bookmarkedResources.length === 0 && (
+            <button
+              onClick={handleImportClick}
+              className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+            >
+              Import JSON
+            </button>
+          )}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".json"
+            onChange={handleFileChange}
+            className="hidden"
+            aria-label="Import bookmarks from JSON file"
+          />
         </div>
       </div>
+
+      {importMessage && (
+        <div
+          className={`mb-4 p-4 rounded-lg ${
+            importMessage.type === 'success'
+              ? 'bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-200'
+              : 'bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-200'
+          }`}
+        >
+          {importMessage.text}
+        </div>
+      )}
 
       {bookmarkedResources.length > 0 && (
         <div className="mb-8">

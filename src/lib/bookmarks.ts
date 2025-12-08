@@ -212,6 +212,192 @@ export function exportBookmarksToJSON(): BookmarkExport | null {
 }
 
 /**
+ * Import result interface
+ */
+export interface ImportResult {
+  success: boolean;
+  importedCount: number;
+  skippedCount: number;
+  error?: string;
+}
+
+/**
+ * Validation result interface
+ */
+interface ValidationResult {
+  valid: boolean;
+  error?: string;
+  data?: BookmarkImport;
+}
+
+/**
+ * Bookmark import data structure
+ */
+interface BookmarkImport {
+  version: string;
+  exportDate: string;
+  bookmarkCount: number;
+  bookmarks: Array<{
+    resourceId: string;
+    timestamp: number;
+    bookmarkedAt: string;
+  }>;
+  resources?: Array<{
+    id: string;
+    name: string;
+    [key: string]: unknown;
+  }>;
+}
+
+/**
+ * Validate bookmark import data structure
+ */
+function validateBookmarkImport(data: unknown): ValidationResult {
+  if (!data || typeof data !== 'object') {
+    return { valid: false, error: 'Invalid file format. Data must be a JSON object.' };
+  }
+
+  const obj = data as Record<string, unknown>;
+
+  if (typeof obj.version !== 'string' || obj.version !== '1.0') {
+    return { valid: false, error: 'Unsupported file version. Please export a new file.' };
+  }
+
+  if (typeof obj.exportDate !== 'string') {
+    return { valid: false, error: 'Invalid file format. Missing export date.' };
+  }
+
+  if (typeof obj.bookmarkCount !== 'number') {
+    return { valid: false, error: 'Invalid file format. Missing bookmark count.' };
+  }
+
+  if (!Array.isArray(obj.bookmarks)) {
+    return { valid: false, error: 'Invalid file format. Bookmarks must be an array.' };
+  }
+
+  const bookmarks = obj.bookmarks;
+  for (let i = 0; i < bookmarks.length; i++) {
+    const bookmark = bookmarks[i];
+    if (!bookmark || typeof bookmark !== 'object') {
+      return { valid: false, error: `Invalid bookmark at index ${i}.` };
+    }
+    const bm = bookmark as Record<string, unknown>;
+    if (typeof bm.resourceId !== 'string' || bm.resourceId.length === 0) {
+      return { valid: false, error: `Invalid bookmark at index ${i}. Missing resourceId.` };
+    }
+    if (typeof bm.timestamp !== 'number' || bm.timestamp <= 0) {
+      return { valid: false, error: `Invalid bookmark at index ${i}. Invalid timestamp.` };
+    }
+  }
+
+  return {
+    valid: true,
+    data: obj as unknown as BookmarkImport,
+  };
+}
+
+/**
+ * Merge imported bookmarks with existing bookmarks
+ */
+function mergeBookmarks(
+  imported: Array<{ resourceId: string; timestamp: number }>,
+  existing: BookmarkItem[]
+): BookmarkItem[] {
+  const existingMap = new Map<string, number>();
+  existing.forEach((item) => {
+    existingMap.set(item.resourceId, item.timestamp);
+  });
+
+  const merged: BookmarkItem[] = [];
+  const seen = new Set<string>();
+
+  imported.forEach((item) => {
+    if (!seen.has(item.resourceId)) {
+      const existingTimestamp = existingMap.get(item.resourceId);
+      const timestamp = existingTimestamp && existingTimestamp > item.timestamp ? existingTimestamp : item.timestamp;
+      merged.push({
+        resourceId: item.resourceId,
+        timestamp,
+      });
+      seen.add(item.resourceId);
+    }
+  });
+
+  existing.forEach((item) => {
+    if (!seen.has(item.resourceId)) {
+      merged.push(item);
+      seen.add(item.resourceId);
+    }
+  });
+
+  return merged.sort((a, b) => b.timestamp - a.timestamp);
+}
+
+/**
+ * Import bookmarks from JSON string
+ */
+export function importBookmarksFromJSON(jsonString: string): ImportResult {
+  if (typeof window === 'undefined') {
+    return { success: false, importedCount: 0, skippedCount: 0, error: 'Import is only available in the browser.' };
+  }
+
+  if (!jsonString || typeof jsonString !== 'string' || jsonString.trim().length === 0) {
+    return { success: false, importedCount: 0, skippedCount: 0, error: 'Invalid file format. File is empty.' };
+  }
+
+  try {
+    const parsed = JSON.parse(jsonString);
+    const validation = validateBookmarkImport(parsed);
+
+    if (!validation.valid || !validation.data) {
+      return {
+        success: false,
+        importedCount: 0,
+        skippedCount: 0,
+        error: validation.error || 'Invalid file format.',
+      };
+    }
+
+    const importData = validation.data;
+
+    if (importData.bookmarks.length === 0) {
+      return { success: false, importedCount: 0, skippedCount: 0, error: 'No valid bookmarks found in file.' };
+    }
+
+    const existingBookmarks = getBookmarkItems();
+    const importedBookmarks = importData.bookmarks.map((bm) => ({
+      resourceId: bm.resourceId,
+      timestamp: bm.timestamp,
+    }));
+
+    const merged = mergeBookmarks(importedBookmarks, existingBookmarks);
+    const importedCount = importedBookmarks.filter((ib) => {
+      return !existingBookmarks.some((eb) => eb.resourceId === ib.resourceId);
+    }).length;
+    const skippedCount = importedBookmarks.length - importedCount;
+
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+      window.dispatchEvent(new CustomEvent('bookmarks-changed'));
+      return {
+        success: true,
+        importedCount,
+        skippedCount,
+      };
+    } catch {
+      return {
+        success: false,
+        importedCount: 0,
+        skippedCount: 0,
+        error: 'Failed to save bookmarks. localStorage may be unavailable.',
+      };
+    }
+  } catch {
+    return { success: false, importedCount: 0, skippedCount: 0, error: 'Invalid file format. Not valid JSON.' };
+  }
+}
+
+/**
  * Download bookmarks as JSON file
  */
 export function downloadBookmarksAsJSON(resources: Array<{ id: string; name: string }>): void {
