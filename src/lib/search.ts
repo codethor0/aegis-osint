@@ -1,6 +1,11 @@
 import type { Category, Resource } from './types';
 
 /**
+ * Maximum allowed query length to prevent DoS attacks
+ */
+const MAX_QUERY_LENGTH = 1000;
+
+/**
  * Search categories by query string
  */
 export function searchCategories(categories: Category[], query: string): Category[] {
@@ -8,7 +13,12 @@ export function searchCategories(categories: Category[], query: string): Categor
     return categories;
   }
 
-  const lowerQuery = query.toLowerCase().trim();
+  const trimmedQuery = query.trim();
+  if (trimmedQuery.length > MAX_QUERY_LENGTH) {
+    return [];
+  }
+
+  const lowerQuery = trimmedQuery.toLowerCase();
 
   return categories.filter((category) => {
     const nameMatch = category.name.toLowerCase().includes(lowerQuery);
@@ -30,7 +40,12 @@ export function searchResources(resources: Resource[], query: string): Resource[
     return resources;
   }
 
-  const lowerQuery = query.toLowerCase().trim();
+  const trimmedQuery = query.trim();
+  if (trimmedQuery.length > MAX_QUERY_LENGTH) {
+    return [];
+  }
+
+  const lowerQuery = trimmedQuery.toLowerCase();
 
   return resources.filter((resource) => {
     const nameMatch = resource.name.toLowerCase().includes(lowerQuery);

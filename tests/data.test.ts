@@ -41,9 +41,12 @@ describe('Data Utilities', () => {
     it('should return a category when given a valid ID', () => {
       const categories = getCategories();
       if (categories.length > 0) {
-        const category = getCategoryById(categories[0].id);
-        expect(category).toBeDefined();
-        expect(category?.id).toBe(categories[0].id);
+        const firstCategory = categories[0];
+        if (firstCategory) {
+          const category = getCategoryById(firstCategory.id);
+          expect(category).toBeDefined();
+          expect(category?.id).toBe(firstCategory.id);
+        }
       }
     });
 
@@ -62,9 +65,12 @@ describe('Data Utilities', () => {
     it('should return a category when given a valid slug', () => {
       const categories = getCategories();
       if (categories.length > 0) {
-        const category = getCategoryBySlug(categories[0].slug);
-        expect(category).toBeDefined();
-        expect(category?.slug).toBe(categories[0].slug);
+        const firstCategory = categories[0];
+        if (firstCategory) {
+          const category = getCategoryBySlug(firstCategory.slug);
+          expect(category).toBeDefined();
+          expect(category?.slug).toBe(firstCategory.slug);
+        }
       }
     });
 
@@ -114,9 +120,12 @@ describe('Data Utilities', () => {
     it('should return a resource when given a valid ID', () => {
       const resources = getResources();
       if (resources.length > 0) {
-        const resource = getResourceById(resources[0].id);
-        expect(resource).toBeDefined();
-        expect(resource?.id).toBe(resources[0].id);
+        const firstResource = resources[0];
+        if (firstResource) {
+          const resource = getResourceById(firstResource.id);
+          expect(resource).toBeDefined();
+          expect(resource?.id).toBe(firstResource.id);
+        }
       }
     });
 
@@ -135,11 +144,14 @@ describe('Data Utilities', () => {
     it('should return resources for a valid category', () => {
       const categories = getCategories();
       if (categories.length > 0) {
-        const resources = getResourcesByCategory(categories[0].id);
-        expect(Array.isArray(resources)).toBe(true);
-        resources.forEach((resource) => {
-          expect(resource.category).toBe(categories[0].id);
-        });
+        const firstCategory = categories[0];
+        if (firstCategory) {
+          const resources = getResourcesByCategory(firstCategory.id);
+          expect(Array.isArray(resources)).toBe(true);
+          resources.forEach((resource) => {
+            expect(resource.category).toBe(firstCategory.id);
+          });
+        }
       }
     });
 

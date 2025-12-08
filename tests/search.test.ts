@@ -24,28 +24,40 @@ describe('Search Utilities', () => {
     it('should filter categories by name', () => {
       const categories = getCategories();
       if (categories.length > 0) {
-        const query = categories[0].name.toLowerCase().substring(0, 3);
-        const results = searchCategories(categories, query);
-        expect(results.length).toBeGreaterThan(0);
-        expect(results.some((cat) => cat.id === categories[0].id)).toBe(true);
+        const firstCategory = categories[0];
+        if (firstCategory) {
+          const query = firstCategory.name.toLowerCase().substring(0, 3);
+          const results = searchCategories(categories, query);
+          expect(results.length).toBeGreaterThan(0);
+          expect(results.some((cat) => cat.id === firstCategory.id)).toBe(true);
+        }
       }
     });
 
     it('should filter categories by description', () => {
       const categories = getCategories();
-      if (categories.length > 0 && categories[0].description.length > 5) {
-        const query = categories[0].description.toLowerCase().substring(0, 5);
-        const results = searchCategories(categories, query);
-        expect(results.length).toBeGreaterThan(0);
+      if (categories.length > 0) {
+        const firstCategory = categories[0];
+        if (firstCategory && firstCategory.description.length > 5) {
+          const query = firstCategory.description.toLowerCase().substring(0, 5);
+          const results = searchCategories(categories, query);
+          expect(results.length).toBeGreaterThan(0);
+        }
       }
     });
 
     it('should filter categories by tags', () => {
       const categories = getCategories();
-      if (categories.length > 0 && categories[0].tags.length > 0) {
-        const query = categories[0].tags[0].toLowerCase();
-        const results = searchCategories(categories, query);
-        expect(results.length).toBeGreaterThan(0);
+      if (categories.length > 0) {
+        const firstCategory = categories[0];
+        if (firstCategory && firstCategory.tags.length > 0) {
+          const firstTag = firstCategory.tags[0];
+          if (firstTag) {
+            const query = firstTag.toLowerCase();
+            const results = searchCategories(categories, query);
+            expect(results.length).toBeGreaterThan(0);
+          }
+        }
       }
     });
 
@@ -61,9 +73,12 @@ describe('Search Utilities', () => {
     it('should be case-insensitive', () => {
       const categories = getCategories();
       if (categories.length > 0) {
-        const query = categories[0].name.toUpperCase();
-        const results = searchCategories(categories, query);
-        expect(results.length).toBeGreaterThan(0);
+        const firstCategory = categories[0];
+        if (firstCategory) {
+          const query = firstCategory.name.toUpperCase();
+          const results = searchCategories(categories, query);
+          expect(results.length).toBeGreaterThan(0);
+        }
       }
     });
   });
@@ -78,37 +93,52 @@ describe('Search Utilities', () => {
     it('should filter resources by name', () => {
       const resources = getResources();
       if (resources.length > 0) {
-        const query = resources[0].name.toLowerCase().substring(0, 3);
-        const results = searchResources(resources, query);
-        expect(results.length).toBeGreaterThan(0);
-        expect(results.some((res) => res.id === resources[0].id)).toBe(true);
+        const firstResource = resources[0];
+        if (firstResource) {
+          const query = firstResource.name.toLowerCase().substring(0, 3);
+          const results = searchResources(resources, query);
+          expect(results.length).toBeGreaterThan(0);
+          expect(results.some((res) => res.id === firstResource.id)).toBe(true);
+        }
       }
     });
 
     it('should filter resources by description', () => {
       const resources = getResources();
-      if (resources.length > 0 && resources[0].description.length > 5) {
-        const query = resources[0].description.toLowerCase().substring(0, 5);
-        const results = searchResources(resources, query);
-        expect(results.length).toBeGreaterThan(0);
+      if (resources.length > 0) {
+        const firstResource = resources[0];
+        if (firstResource && firstResource.description.length > 5) {
+          const query = firstResource.description.toLowerCase().substring(0, 5);
+          const results = searchResources(resources, query);
+          expect(results.length).toBeGreaterThan(0);
+        }
       }
     });
 
     it('should filter resources by tags', () => {
       const resources = getResources();
-      if (resources.length > 0 && resources[0].tags.length > 0) {
-        const query = resources[0].tags[0].toLowerCase();
-        const results = searchResources(resources, query);
-        expect(results.length).toBeGreaterThan(0);
+      if (resources.length > 0) {
+        const firstResource = resources[0];
+        if (firstResource && firstResource.tags.length > 0) {
+          const firstTag = firstResource.tags[0];
+          if (firstTag) {
+            const query = firstTag.toLowerCase();
+            const results = searchResources(resources, query);
+            expect(results.length).toBeGreaterThan(0);
+          }
+        }
       }
     });
 
     it('should filter resources by type', () => {
       const resources = getResources();
       if (resources.length > 0) {
-        const query = resources[0].type.toLowerCase();
-        const results = searchResources(resources, query);
-        expect(results.length).toBeGreaterThan(0);
+        const firstResource = resources[0];
+        if (firstResource) {
+          const query = firstResource.type.toLowerCase();
+          const results = searchResources(resources, query);
+          expect(results.length).toBeGreaterThan(0);
+        }
       }
     });
 
@@ -134,14 +164,17 @@ describe('Search Utilities', () => {
       const resources = getResources();
       const categories = getCategories();
       if (categories.length > 0) {
-        const categoryResources = resources.filter((r) => r.category === categories[0].id);
-        if (categoryResources.length > 0) {
-          const filters: ResourceFilters = { category: categories[0].id };
-          const results = filterResources(resources, filters);
-          expect(results.length).toBe(categoryResources.length);
-          results.forEach((resource) => {
-            expect(resource.category).toBe(categories[0].id);
-          });
+        const firstCategory = categories[0];
+        if (firstCategory) {
+          const categoryResources = resources.filter((r) => r.category === firstCategory.id);
+          if (categoryResources.length > 0) {
+            const filters: ResourceFilters = { category: firstCategory.id };
+            const results = filterResources(resources, filters);
+            expect(results.length).toBe(categoryResources.length);
+            results.forEach((resource) => {
+              expect(resource.category).toBe(firstCategory.id);
+            });
+          }
         }
       }
     });
@@ -162,14 +195,17 @@ describe('Search Utilities', () => {
     it('should filter by type', () => {
       const resources = getResources();
       if (resources.length > 0) {
-        const type = resources[0].type;
-        const typeResources = resources.filter((r) => r.type === type);
-        const filters: ResourceFilters = { type };
-        const results = filterResources(resources, filters);
-        expect(results.length).toBe(typeResources.length);
-        results.forEach((resource) => {
-          expect(resource.type).toBe(type);
-        });
+        const firstResource = resources[0];
+        if (firstResource) {
+          const type = firstResource.type;
+          const typeResources = resources.filter((r) => r.type === type);
+          const filters: ResourceFilters = { type };
+          const results = filterResources(resources, filters);
+          expect(results.length).toBe(typeResources.length);
+          results.forEach((resource) => {
+            expect(resource.type).toBe(type);
+          });
+        }
       }
     });
 

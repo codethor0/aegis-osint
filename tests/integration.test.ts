@@ -65,15 +65,18 @@ describe('Integration Tests', () => {
     it('should load category detail page data correctly', () => {
       const slugs = getAllCategorySlugs();
       if (slugs.length > 0) {
-        const category = getCategoryBySlug(slugs[0]);
-        expect(category).toBeDefined();
+        const firstSlug = slugs[0];
+        if (firstSlug) {
+          const category = getCategoryBySlug(firstSlug);
+          expect(category).toBeDefined();
 
-        if (category) {
-          const resources = getResourcesByCategory(category.id);
-          expect(Array.isArray(resources)).toBe(true);
-          resources.forEach((resource) => {
-            expect(resource.category).toBe(category.id);
-          });
+          if (category) {
+            const resources = getResourcesByCategory(category.id);
+            expect(Array.isArray(resources)).toBe(true);
+            resources.forEach((resource) => {
+              expect(resource.category).toBe(category.id);
+            });
+          }
         }
       }
     });
@@ -81,14 +84,17 @@ describe('Integration Tests', () => {
     it('should load resource detail page data correctly', () => {
       const ids = getAllResourceIds();
       if (ids.length > 0) {
-        const resource = getResourceById(ids[0]);
-        expect(resource).toBeDefined();
+        const firstId = ids[0];
+        if (firstId) {
+          const resource = getResourceById(firstId);
+          expect(resource).toBeDefined();
 
-        if (resource) {
-          expect(resource.id).toBe(ids[0]);
-          expect(resource.name).toBeDefined();
-          expect(resource.url).toBeDefined();
-          expect(resource.description).toBeDefined();
+          if (resource) {
+            expect(resource.id).toBe(firstId);
+            expect(resource.name).toBeDefined();
+            expect(resource.url).toBeDefined();
+            expect(resource.description).toBeDefined();
+          }
         }
       }
     });

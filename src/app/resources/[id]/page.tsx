@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getResourceById, getCategoryById, getAllResourceIds } from '@/lib/data';
 import { generateMetadata } from './metadata';
+import { isValidUrl, validateUrls } from '@/lib/url-validation';
 
 export { generateMetadata };
 
@@ -53,19 +54,21 @@ export default async function ResourceDetailPage({ params }: ResourcePageProps) 
             Information
           </h2>
           <dl className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">URL</dt>
-              <dd className="text-gray-900 dark:text-gray-100">
-                <a
-                  href={resource.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 dark:text-blue-400 hover:underline break-all"
-                >
-                  {resource.url}
-                </a>
-              </dd>
-            </div>
+            {isValidUrl(resource.url) && (
+              <div>
+                <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">URL</dt>
+                <dd className="text-gray-900 dark:text-gray-100">
+                  <a
+                    href={resource.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 dark:text-blue-400 hover:underline break-all"
+                  >
+                    {resource.url}
+                  </a>
+                </dd>
+              </div>
+            )}
             {category && (
               <div>
                 <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
@@ -117,7 +120,7 @@ export default async function ResourceDetailPage({ params }: ResourcePageProps) 
                 <dd className="text-gray-900 dark:text-gray-100">Yes</dd>
               </div>
             )}
-            {resource.api_docs && (
+            {resource.api_docs && isValidUrl(resource.api_docs) && (
               <div>
                 <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
                   API Documentation
@@ -215,7 +218,7 @@ export default async function ResourceDetailPage({ params }: ResourcePageProps) 
               Alternative URLs
             </h2>
             <ul className="space-y-2">
-              {resource.alternative_urls.map((url, index) => (
+              {validateUrls(resource.alternative_urls).map((url, index) => (
                 <li key={index}>
                   <a
                     href={url}

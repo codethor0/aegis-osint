@@ -172,8 +172,12 @@ async function validateAllLinks(): Promise<void> {
       console.log('\n✅ All links validated successfully!');
       process.exit(0);
     } else {
-      console.warn('\n⚠️  Some links failed validation. This is expected in CI environments where sites may block automated requests.');
-      console.warn('   These are informational warnings and do not indicate a problem with the codebase.');
+      console.warn(
+        '\n⚠️  Some links failed validation. This is expected in CI environments where sites may block automated requests.'
+      );
+      console.warn(
+        '   These are informational warnings and do not indicate a problem with the codebase.'
+      );
       // Don't exit with error code - link validation failures are expected in CI
       // External sites often return 403, 404, 429, etc. for automated requests
       process.exit(0);
