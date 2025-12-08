@@ -1,14 +1,24 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { getBookmarks, clearBookmarks } from '@/lib/bookmarks';
 import { getResources } from '@/lib/data';
+import { filterResources, type ResourceFilters } from '@/lib/search';
 import type { Resource } from '@/lib/types';
 import ResourceList from '@/components/ResourceList';
+import SearchFilters from '@/components/SearchFilters';
 
 export default function FavoritesPage() {
+  const searchParams = useSearchParams();
   const [bookmarkedResources, setBookmarkedResources] = useState<Resource[]>([]);
+  const [filteredResources, setFilteredResources] = useState<Resource[]>([]);
   const [mounted, setMounted] = useState(false);
+
+  const category = searchParams.get('category') || undefined;
+  const region = searchParams.get('region') || undefined;
+  const riskLevel = searchParams.get('riskLevel') || undefined;
+  const cost = searchParams.get('cost') || undefined;
 
   useEffect(() => {
     setMounted(true);
@@ -23,6 +33,21 @@ export default function FavoritesPage() {
     window.addEventListener('bookmarks-changed', updateBookmarks);
     return () => window.removeEventListener('bookmarks-changed', updateBookmarks);
   }, []);
+
+  useEffect(() => {
+    const filters: ResourceFilters = {};
+    if (category) filters.category = category;
+    if (region) filters.region = region;
+    if (riskLevel) filters.riskLevel = riskLevel;
+    if (cost) filters.cost = cost;
+
+    if (Object.keys(filters).length > 0) {
+      const filtered = filterResources(bookmarkedResources, filters);
+      setFilteredResources(filtered);
+    } else {
+      setFilteredResources(bookmarkedResources);
+    }
+  }, [bookmarkedResources, category, region, riskLevel, cost]);
 
   const handleClearAll = () => {
     if (confirm('Are you sure you want to clear all bookmarks?')) {
@@ -52,8 +77,9 @@ export default function FavoritesPage() {
               Favorites
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
-              {bookmarkedResources.length} bookmarked resource
+              {filteredResources.length} of {bookmarkedResources.length} bookmarked resource
               {bookmarkedResources.length !== 1 ? 's' : ''}
+              {filteredResources.length !== bookmarkedResources.length ? ' (filtered)' : ''}
             </p>
           </div>
           {bookmarkedResources.length > 0 && (
@@ -67,6 +93,17 @@ export default function FavoritesPage() {
         </div>
       </div>
 
+      {bookmarkedResources.length > 0 && (
+        <div className="mb-8">
+          <SearchFilters
+            currentCategory={category}
+            currentRegion={region}
+            currentRiskLevel={riskLevel}
+            currentCost={cost}
+          />
+        </div>
+      )}
+
       {bookmarkedResources.length === 0 ? (
         <div className="text-center py-12">
           <p className="text-gray-600 dark:text-gray-400 mb-4">
@@ -76,8 +113,17 @@ export default function FavoritesPage() {
             Click the star icon on any resource to add it to your favorites.
           </p>
         </div>
+      ) : filteredResources.length === 0 ? (
+        <div className="text-center py-12">
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
+            No bookmarked resources match the selected filters.
+          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-500">
+            Try adjusting your filter criteria.
+          </p>
+        </div>
       ) : (
-        <ResourceList resources={bookmarkedResources} />
+        <ResourceList resources={filteredResources} />
       )}
     </div>
   );

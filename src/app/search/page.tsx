@@ -56,6 +56,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
       {searchType === 'all' || searchType === 'resources' ? (
         <div className="mb-8">
           <SearchFilters
+            currentCategory={undefined}
             currentRegion={region}
             currentRiskLevel={riskLevel}
             currentCost={cost}

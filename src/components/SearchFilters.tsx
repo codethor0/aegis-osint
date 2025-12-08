@@ -1,20 +1,25 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
+import { getCategories } from '@/lib/data';
 
 interface SearchFiltersProps {
+  currentCategory?: string;
   currentRegion?: string;
   currentRiskLevel?: string;
   currentCost?: string;
 }
 
 export default function SearchFilters({
+  currentCategory,
   currentRegion,
   currentRiskLevel,
   currentCost,
 }: SearchFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const categories = getCategories();
 
   const handleFilterChange = (filterName: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -23,13 +28,35 @@ export default function SearchFilters({
     } else {
       params.set(filterName, value);
     }
-    router.push(`/search?${params.toString()}`);
+    const basePath = pathname || '/search';
+    router.push(`${basePath}?${params.toString()}`);
   };
 
   return (
     <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mb-8">
       <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Filters</h3>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div>
+          <label
+            htmlFor="category-filter"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+          >
+            Category
+          </label>
+          <select
+            id="category-filter"
+            value={currentCategory || ''}
+            onChange={(e) => handleFilterChange('category', e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">All Categories</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
         <div>
           <label
             htmlFor="region-filter"
