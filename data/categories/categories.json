@@ -1,0 +1,263 @@
+[
+  {
+    "id": "people-search-identity",
+    "name": "People Search & Identity",
+    "description": "Tools and databases for finding information about individuals, including contact details, addresses, social media profiles, and public records.",
+    "slug": "people-search-identity",
+    "subcategories": [
+      "people-search-basic",
+      "people-search-advanced",
+      "identity-verification",
+      "background-checks"
+    ],
+    "tags": ["people", "identity", "contact", "address", "phone", "email", "background"],
+    "region": "US",
+    "updated_at": "2024-01-15T10:00:00Z",
+    "long_description": "People search and identity verification tools provide access to publicly available information about individuals. These resources can include contact information, address history, social media profiles, and other public records. It is essential to use these tools ethically and in compliance with privacy laws and terms of service.",
+    "icon": "user-search",
+    "color": "#3B82F6"
+  },
+  {
+    "id": "government-records-federal",
+    "name": "Government Records (Federal)",
+    "description": "Federal government databases, FOIA systems, and public records from U.S. federal agencies including executive, legislative, and judicial branches.",
+    "slug": "government-records-federal",
+    "subcategories": [
+      "foia-systems",
+      "federal-agencies",
+      "congressional-records",
+      "federal-courts",
+      "regulatory-data"
+    ],
+    "tags": ["government", "federal", "foia", "public-records", "usa", "federal-agencies"],
+    "region": "US-Federal",
+    "updated_at": "2024-01-15T10:00:00Z",
+    "long_description": "Federal government records include publicly accessible databases from various U.S. federal agencies. These resources provide access to information such as spending data, regulatory filings, congressional records, court documents, and data obtained through Freedom of Information Act requests. All resources in this category are legal and publicly accessible.",
+    "icon": "government",
+    "color": "#10B981"
+  },
+  {
+    "id": "government-records-state",
+    "name": "Government Records (State)",
+    "description": "State and local government databases, public records, and information systems from U.S. state and local jurisdictions.",
+    "slug": "government-records-state",
+    "subcategories": [
+      "state-agencies",
+      "local-government",
+      "state-courts",
+      "state-legislatures",
+      "municipal-records"
+    ],
+    "tags": ["government", "state", "local", "public-records", "usa", "state-agencies"],
+    "region": "US-State",
+    "updated_at": "2024-01-15T10:00:00Z",
+    "long_description": "State and local government records provide access to information from U.S. state, county, and municipal governments. These resources include business registrations, property records, court documents, licensing information, and other public records maintained by state and local jurisdictions. Access requirements and data availability vary by state.",
+    "icon": "state-government",
+    "color": "#10B981"
+  },
+  {
+    "id": "property-real-estate",
+    "name": "Property & Real Estate",
+    "description": "Property records, ownership information, real estate transactions, tax assessments, and building permits from public sources.",
+    "slug": "property-real-estate",
+    "subcategories": [
+      "property-records",
+      "ownership-information",
+      "real-estate-transactions",
+      "tax-assessments",
+      "building-permits"
+    ],
+    "tags": ["property", "real-estate", "ownership", "address", "parcel", "tax", "assessment"],
+    "region": "US",
+    "updated_at": "2024-01-15T10:00:00Z",
+    "long_description": "Property and real estate intelligence resources provide access to publicly available information about properties, ownership, transactions, and related data. These tools are commonly used for due diligence, background research, and investigative work. Most property records are maintained at the county or municipal level in the United States.",
+    "icon": "home",
+    "color": "#F59E0B"
+  },
+  {
+    "id": "corporate-business-intelligence",
+    "name": "Corporate & Business Intelligence",
+    "description": "Corporate registrations, business filings, financial data, SEC filings, and information about companies and business entities.",
+    "slug": "corporate-business-intelligence",
+    "subcategories": [
+      "corporate-registrations",
+      "sec-filings",
+      "business-filings",
+      "financial-data",
+      "corporate-structures"
+    ],
+    "tags": [
+      "corporate",
+      "business",
+      "companies",
+      "sec",
+      "filings",
+      "financial",
+      "corporate-intelligence"
+    ],
+    "region": "US",
+    "updated_at": "2024-01-15T10:00:00Z",
+    "long_description": "Corporate and business intelligence resources provide access to publicly available information about companies, business entities, and corporate structures. This includes SEC filings, state business registrations, financial data, corporate ownership information, and other business records. These resources are essential for due diligence, competitive intelligence, and investigative research.",
+    "icon": "briefcase",
+    "color": "#8B5CF6"
+  },
+  {
+    "id": "court-records-legal",
+    "name": "Court Records & Legal Systems",
+    "description": "Federal and state court records, case filings, legal documents, dockets, and judicial information from public court systems.",
+    "slug": "court-records-legal",
+    "subcategories": [
+      "federal-courts",
+      "state-courts",
+      "case-filings",
+      "legal-documents",
+      "dockets"
+    ],
+    "tags": ["court", "legal", "cases", "filings", "dockets", "judicial", "litigation"],
+    "region": "US",
+    "updated_at": "2024-01-15T10:00:00Z",
+    "long_description": "Court records and legal systems provide access to publicly available information from federal and state courts. This includes case filings, dockets, legal documents, judgments, and other judicial records. Access to court records varies by jurisdiction, with federal courts typically accessible through PACER and state courts through various state-specific systems.",
+    "icon": "scale",
+    "color": "#EF4444"
+  },
+  {
+    "id": "social-media-intel",
+    "name": "Social Media Intelligence",
+    "description": "Tools and techniques for researching social media platforms, analyzing public profiles, and gathering intelligence from social networks.",
+    "slug": "social-media-intel",
+    "subcategories": [
+      "social-media-search",
+      "profile-analysis",
+      "content-analysis",
+      "social-graphs",
+      "platform-specific"
+    ],
+    "tags": [
+      "social-media",
+      "socmint",
+      "profiles",
+      "networks",
+      "twitter",
+      "facebook",
+      "linkedin",
+      "instagram"
+    ],
+    "region": "Global",
+    "updated_at": "2024-01-15T10:00:00Z",
+    "long_description": "Social media intelligence tools provide capabilities for researching and analyzing publicly available information from social media platforms. These resources can help identify profiles, analyze content, map social networks, and gather intelligence from public social media data. It is critical to respect platform terms of service and privacy settings when using these tools.",
+    "icon": "share-2",
+    "color": "#06B6D4"
+  },
+  {
+    "id": "cybersecurity-threat-intel",
+    "name": "Cybersecurity & Threat Intelligence",
+    "description": "OSINT tools for cybersecurity research, threat intelligence gathering, domain analysis, and security-related investigations.",
+    "slug": "cybersecurity-threat-intel",
+    "subcategories": [
+      "threat-intelligence",
+      "domain-intelligence",
+      "ip-intelligence",
+      "malware-analysis",
+      "vulnerability-research"
+    ],
+    "tags": [
+      "cybersecurity",
+      "threat-intelligence",
+      "domain",
+      "ip",
+      "malware",
+      "security",
+      "vulnerability"
+    ],
+    "region": "Global",
+    "updated_at": "2024-01-15T10:00:00Z",
+    "long_description": "Cybersecurity and threat intelligence OSINT tools provide capabilities for researching domains, IP addresses, malware, vulnerabilities, and other security-related information. These resources are essential for security researchers, threat analysts, and incident responders. All tools in this category are legal and designed for defensive security purposes.",
+    "icon": "shield",
+    "color": "#10B981"
+  },
+  {
+    "id": "geospatial-mapping",
+    "name": "Geospatial & Mapping",
+    "description": "Geographic information systems, mapping tools, satellite imagery, location intelligence, and geospatial analysis resources.",
+    "slug": "geospatial-mapping",
+    "subcategories": [
+      "mapping-tools",
+      "satellite-imagery",
+      "geocoding",
+      "location-intelligence",
+      "gis"
+    ],
+    "tags": ["geospatial", "mapping", "gis", "satellite", "location", "geography", "coordinates"],
+    "region": "Global",
+    "updated_at": "2024-01-15T10:00:00Z",
+    "long_description": "Geospatial and mapping resources provide access to geographic information, mapping tools, satellite imagery, and location intelligence. These tools are valuable for analyzing locations, verifying addresses, conducting geographic research, and visualizing spatial data. Many resources provide free access to mapping data and satellite imagery.",
+    "icon": "map",
+    "color": "#14B8A6"
+  },
+  {
+    "id": "research-journalism-tools",
+    "name": "Research & Journalism Tools",
+    "description": "Tools and resources designed for investigative research, journalism, fact-checking, and academic research purposes.",
+    "slug": "research-journalism-tools",
+    "subcategories": [
+      "fact-checking",
+      "investigative-tools",
+      "academic-research",
+      "journalism-tools",
+      "verification"
+    ],
+    "tags": [
+      "research",
+      "journalism",
+      "investigation",
+      "fact-checking",
+      "verification",
+      "academic"
+    ],
+    "region": "Global",
+    "updated_at": "2024-01-15T10:00:00Z",
+    "long_description": "Research and journalism tools provide specialized resources for investigative work, fact-checking, verification, and academic research. These tools help researchers verify information, analyze data, and conduct thorough investigations. Many resources in this category are specifically designed for journalists and researchers.",
+    "icon": "search",
+    "color": "#6366F1"
+  },
+  {
+    "id": "data-leaks-breaches",
+    "name": "Data Leaks & Breaches",
+    "description": "Resources for researching data breaches, leaked databases, and compromised credential information for security and verification purposes.",
+    "slug": "data-leaks-breaches",
+    "subcategories": [
+      "breach-databases",
+      "credential-checking",
+      "leak-research",
+      "compromise-verification"
+    ],
+    "tags": ["data-breaches", "leaks", "credentials", "compromised", "security", "verification"],
+    "region": "Global",
+    "updated_at": "2024-01-15T10:00:00Z",
+    "long_description": "Data leaks and breach resources provide access to information about data breaches, compromised credentials, and leaked databases. These tools are primarily used for security research, credential verification, and understanding the scope of data breaches. It is essential to use these resources ethically and only for legitimate security purposes.",
+    "icon": "database",
+    "color": "#F97316",
+    "legal_notes": "These resources should only be used for legitimate security research, credential verification, and breach analysis. Unauthorized access to systems using compromised credentials is illegal."
+  },
+  {
+    "id": "transportation-osint",
+    "name": "Transportation OSINT",
+    "description": "Aviation, maritime, rail, and vehicle intelligence resources including flight tracking, vessel information, and transportation records.",
+    "slug": "transportation-osint",
+    "subcategories": ["aviation", "maritime", "rail", "vehicle-records", "transportation-tracking"],
+    "tags": [
+      "transportation",
+      "aviation",
+      "maritime",
+      "rail",
+      "vehicles",
+      "flight-tracking",
+      "vessel-tracking"
+    ],
+    "region": "Global",
+    "updated_at": "2024-01-15T10:00:00Z",
+    "long_description": "Transportation OSINT resources provide access to publicly available information about aircraft, vessels, rail systems, and vehicles. This includes flight tracking, vessel tracking, vehicle registration data, and transportation records. These resources are valuable for tracking movements, verifying transportation information, and conducting transportation-related investigations.",
+    "icon": "plane",
+    "color": "#EC4899"
+  }
+]

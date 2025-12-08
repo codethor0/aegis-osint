@@ -1,0 +1,23 @@
+{
+  "id": "example-resource",
+  "name": "Example OSINT Resource",
+  "url": "https://example.com",
+  "description": "A brief description of what this resource does, what information it provides, and how it can be used for OSINT research. This should be clear and concise, typically 1-3 sentences.",
+  "category": "example-category",
+  "subcategory": "example-subcategory-1",
+  "region": "US",
+  "risk_level": "low",
+  "auth_required": false,
+  "cost": "free",
+  "type": "lookup",
+  "tags": ["example", "template", "osint", "lookup"],
+  "last_verified": "2024-01-15T10:30:00Z",
+  "alternative_urls": ["https://example.com/alternative"],
+  "api_docs": "https://example.com/api/docs",
+  "api_available": true,
+  "long_description": "This is an optional longer description that provides more detailed information about the resource, including its features, capabilities, limitations, and best practices for use. It can span multiple paragraphs if needed.",
+  "use_cases": ["Finding contact information", "Verifying identity", "Background research"],
+  "limitations": "This resource may have limitations such as rate limits, geographic restrictions, or data accuracy concerns. Document any known limitations here.",
+  "legal_notes": "Important legal considerations for using this resource, including terms of service, privacy policies, and any restrictions on use.",
+  "languages": ["en"]
+}
