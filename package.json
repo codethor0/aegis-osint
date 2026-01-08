@@ -21,7 +21,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "validate:data": "tsx scripts/validate-build.ts",
-    "validate:links": "tsx scripts/validate-links.ts"
+    "validate:links": "tsx scripts/validate-links.ts",
+    "validate:hygiene": "tsx scripts/check-hygiene.ts"
   },
   "keywords": [
     "osint",

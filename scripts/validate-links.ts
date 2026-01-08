@@ -91,13 +91,13 @@ async function validateUrl(urlString: string): Promise<LinkValidationResult> {
 }
 
 async function validateAllLinks(): Promise<void> {
-  console.log('🔍 Validating resource links...\n');
+  console.log('Validating resource links...\n');
 
   try {
     const resourcesData = JSON.parse(fs.readFileSync(resourcesFile, 'utf-8'));
 
     if (!Array.isArray(resourcesData)) {
-      console.error('❌ Resources file must contain a JSON array');
+      console.error('Resources file must contain a JSON array');
       process.exit(1);
     }
 
@@ -145,7 +145,7 @@ async function validateAllLinks(): Promise<void> {
       await new Promise((resolve) => setTimeout(resolve, 500));
     }
 
-    console.log('\n\n📊 Validation Results:');
+    console.log('\n\nValidation Results:');
     console.log('─'.repeat(50));
     console.log(`Total URLs:     ${urlArray.length}`);
     console.log(`Valid:          ${validCount}`);
@@ -154,7 +154,7 @@ async function validateAllLinks(): Promise<void> {
     console.log('─'.repeat(50));
 
     if (invalidCount > 0 || errorCount > 0) {
-      console.log('\n⚠️  Issues found:\n');
+      console.log('\nIssues found:\n');
       results
         .filter((r) => r.status !== 'valid')
         .forEach((result) => {
@@ -169,11 +169,11 @@ async function validateAllLinks(): Promise<void> {
     }
 
     if (invalidCount === 0 && errorCount === 0) {
-      console.log('\n✅ All links validated successfully!');
+      console.log('\nAll links validated successfully!');
       process.exit(0);
     } else {
       console.warn(
-        '\n⚠️  Some links failed validation. This is expected in CI environments where sites may block automated requests.'
+        '\nSome links failed validation. This is expected in CI environments where sites may block automated requests.'
       );
       console.warn(
         '   These are informational warnings and do not indicate a problem with the codebase.'
@@ -183,7 +183,7 @@ async function validateAllLinks(): Promise<void> {
       process.exit(0);
     }
   } catch (error: any) {
-    console.error(`\n❌ Error reading resources file: ${error.message}`);
+    console.error(`\nError reading resources file: ${error.message}`);
     process.exit(1);
   }
 }

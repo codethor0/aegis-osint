@@ -385,7 +385,7 @@ function validateJsonFile(filePath: string): ValidationResult {
  * Main validation function
  */
 function main() {
-  console.log('🔍 Aegis-OSINT Framework - Data Validation\n');
+  console.log('Aegis-OSINT Framework - Data Validation\n');
 
   const dataDir = path.join(__dirname, '..', 'data');
   const categoriesFile = path.join(dataDir, 'categories', 'categories.json');
@@ -404,7 +404,7 @@ function main() {
   // Validate each file
   for (const filePath of filesToValidate) {
     if (!fs.existsSync(filePath)) {
-      console.error(`❌ File not found: ${filePath}`);
+      console.error(`File not found: ${filePath}`);
       stats.invalidFiles++;
       continue;
     }
@@ -415,12 +415,12 @@ function main() {
 
     if (result.valid) {
       stats.validFiles++;
-      console.log(`  ✅ Valid\n`);
+      console.log(`  Valid\n`);
     } else {
       stats.invalidFiles++;
       stats.totalErrors += result.errors.length;
       stats.totalWarnings += result.warnings.length;
-      console.log(`  ❌ Invalid (${result.errors.length} error(s))\n`);
+      console.log(`  Invalid (${result.errors.length} error(s))\n`);
       result.errors.forEach((error) => {
         console.log(`    - ${error}`);
       });
@@ -429,7 +429,7 @@ function main() {
   }
 
   // Print summary
-  console.log('📊 Validation Summary');
+  console.log('Validation Summary');
   console.log('─'.repeat(50));
   console.log(`Total files:     ${stats.totalFiles}`);
   console.log(`Valid files:     ${stats.validFiles}`);
@@ -440,10 +440,10 @@ function main() {
 
   // Exit with error code if validation failed
   if (stats.invalidFiles > 0 || stats.totalErrors > 0) {
-    console.log('\n❌ Validation failed. Please fix the errors above.');
+    console.log('\nValidation failed. Please fix the errors above.');
     process.exit(1);
   } else {
-    console.log('\n✅ All files validated successfully!');
+    console.log('\nAll files validated successfully!');
     process.exit(0);
   }
 }

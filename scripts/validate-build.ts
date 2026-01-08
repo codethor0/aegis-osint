@@ -129,12 +129,12 @@ function validateDataIntegrity(): ValidationResult {
 }
 
 function main() {
-  console.log('🔍 Validating data integrity...\n');
+  console.log('Validating data integrity...\n');
 
   const result = validateDataIntegrity();
 
   if (result.warnings.length > 0) {
-    console.log('⚠️  Warnings:');
+    console.log('Warnings:');
     result.warnings.forEach((warning) => {
       console.log(`   - ${warning}`);
     });
@@ -142,7 +142,7 @@ function main() {
   }
 
   if (result.errors.length > 0) {
-    console.error('❌ Validation failed with errors:');
+    console.error('Validation failed with errors:');
     result.errors.forEach((error) => {
       console.error(`   - ${error}`);
     });
@@ -150,7 +150,7 @@ function main() {
     process.exit(1);
   }
 
-  console.log('✅ Data integrity validation passed!\n');
+  console.log('Data integrity validation passed!\n');
   process.exit(0);
 }
 
