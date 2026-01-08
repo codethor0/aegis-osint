@@ -48,6 +48,8 @@ export default function BookmarkButton({
       className={`${sizeClasses[size]} ${className} transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded`}
       aria-label={bookmarked ? `Remove ${resourceId} from bookmarks` : `Bookmark ${resourceId}`}
       type="button"
+      data-testid="favorite-toggle"
+      data-resource-id={resourceId}
     >
       {bookmarked ? (
         <svg

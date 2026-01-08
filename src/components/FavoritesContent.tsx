@@ -212,7 +212,7 @@ export default function FavoritesContent() {
 
       {bookmarkedResources.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-gray-600 dark:text-gray-400 mb-4">
+          <p className="text-gray-600 dark:text-gray-400 mb-4" data-testid="favorites-empty-state">
             No bookmarked resources yet.
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-500">
@@ -229,7 +229,9 @@ export default function FavoritesContent() {
           </p>
         </div>
       ) : (
-        <ResourceList resources={filteredResources} />
+        <section data-testid="favorites-list">
+          <ResourceList resources={filteredResources} />
+        </section>
       )}
     </div>
   );
