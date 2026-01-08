@@ -40,7 +40,10 @@ export default async function CategoryDetailPage({ params }: CategoryPageProps) 
         >
           ← Back to Categories
         </Link>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+        <h1
+          className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4"
+          data-testid="category-title"
+        >
           {category.name}
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 mb-4">{category.description}</p>

@@ -11,8 +11,13 @@ export default function CategoryCard({ category }: CategoryCardProps) {
       href={`/categories/${category.slug}`}
       className="block p-6 border border-gray-200 dark:border-gray-800 rounded-lg hover:border-gray-300 dark:hover:border-gray-700 transition-colors bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
       aria-label={`View ${category.name} category`}
+      data-testid="category-card"
+      data-category-id={category.id}
     >
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+      <h3
+        className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2"
+        data-testid="category-card-title"
+      >
         {category.name}
       </h3>
       <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">

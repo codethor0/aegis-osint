@@ -45,7 +45,10 @@ export default async function ResourceDetailPage({ params }: ResourcePageProps) 
         )}
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+            <h1
+              className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4"
+              data-testid="resource-detail-title"
+            >
               {resource.name}
             </h1>
             <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">{resource.description}</p>
@@ -71,6 +74,7 @@ export default async function ResourceDetailPage({ params }: ResourcePageProps) 
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-600 dark:text-blue-400 hover:underline break-all"
+                    data-testid="resource-detail-link"
                   >
                     {resource.url}
                   </a>

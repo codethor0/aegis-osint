@@ -8,14 +8,17 @@ interface ResourceCardProps {
 
 export default function ResourceCard({ resource }: ResourceCardProps) {
   return (
-    <div className="relative">
+    <article className="relative" data-testid="resource-card" data-resource-id={resource.id}>
       <Link
         href={`/resources/${resource.id}`}
         className="block p-6 border border-gray-200 dark:border-gray-800 rounded-lg hover:border-gray-300 dark:hover:border-gray-700 transition-colors bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
         aria-label={`View ${resource.name} resource details`}
       >
         <div className="flex items-start justify-between mb-2">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 flex-1">
+          <h3
+            className="text-lg font-semibold text-gray-900 dark:text-gray-100 flex-1"
+            data-testid="resource-card-title"
+          >
             {resource.name}
           </h3>
         </div>
@@ -69,6 +72,6 @@ export default function ResourceCard({ resource }: ResourceCardProps) {
       <div className="absolute top-4 right-4">
         <BookmarkButton resourceId={resource.id} size="md" />
       </div>
-    </div>
+    </article>
   );
 }
