@@ -174,13 +174,14 @@ export default function SearchFilters({
     currentCost;
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mb-8">
+    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mb-8" data-testid="filter-panel">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Filters</h3>
         {hasActiveFilters && (
           <button
             onClick={handleClearFilters}
             className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
+            data-testid="filter-clear"
           >
             Clear All
           </button>
@@ -218,6 +219,8 @@ export default function SearchFilters({
                     handleMultiSelectChange('categories', category.id, e.target.checked)
                   }
                   className="rounded border-gray-300 dark:border-gray-700"
+                  data-testid="filter-option"
+                  data-filter-id={`categories-${category.id}`}
                 />
                 <span>{category.name}</span>
               </label>
@@ -248,6 +251,8 @@ export default function SearchFilters({
                   checked={localRegions.includes(region.value)}
                   onChange={(e) => handleMultiSelectChange('regions', region.value, e.target.checked)}
                   className="rounded border-gray-300 dark:border-gray-700"
+                  data-testid="filter-option"
+                  data-filter-id={`regions-${region.value}`}
                 />
                 <span>{region.label}</span>
               </label>
@@ -280,6 +285,8 @@ export default function SearchFilters({
                     handleMultiSelectChange('riskLevels', risk.value, e.target.checked)
                   }
                   className="rounded border-gray-300 dark:border-gray-700"
+                  data-testid="filter-option"
+                  data-filter-id={`riskLevels-${risk.value}`}
                 />
                 <span>{risk.label}</span>
               </label>
@@ -309,6 +316,8 @@ export default function SearchFilters({
                   checked={localCosts.includes(cost.value)}
                   onChange={(e) => handleMultiSelectChange('costs', cost.value, e.target.checked)}
                   className="rounded border-gray-300 dark:border-gray-700"
+                  data-testid="filter-option"
+                  data-filter-id={`costs-${cost.value}`}
                 />
                 <span>{cost.label}</span>
               </label>

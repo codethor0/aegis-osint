@@ -26,7 +26,12 @@ export default function ResourceCard({ resource }: ResourceCardProps) {
         {resource.description}
       </p>
       <div className="flex flex-wrap gap-2 mb-2">
-        <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded capitalize">
+        <span
+          className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded capitalize"
+          data-testid="resource-tag"
+          data-tag-type="cost"
+          data-tag-value={resource.cost}
+        >
           {resource.cost}
         </span>
         <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded">
