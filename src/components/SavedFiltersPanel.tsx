@@ -61,27 +61,31 @@ export default function SavedFiltersPanel({ currentFilters, onLoadPreset }: Save
   }
 
   return (
-    <div className="mb-4">
+    <div className="mb-4" data-testid="presets-panel">
       <div className="flex items-center justify-between mb-2">
         <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300">Saved Filters</h4>
         <button
           onClick={() => setShowSaveModal(true)}
           className="text-xs text-blue-600 dark:text-blue-400 hover:underline"
+          data-testid="preset-save-button"
         >
           Save Current
         </button>
       </div>
 
       {presets.length > 0 && (
-        <div className="flex flex-wrap gap-2">
+        <ul className="flex flex-wrap gap-2" data-testid="preset-list">
           {presets.map((preset) => (
-            <div
+            <li
               key={preset.id}
               className="flex items-center gap-1 px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs"
+              data-testid="preset-item"
+              data-preset-name={preset.name}
             >
               <button
                 onClick={() => handleLoad(preset)}
                 className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                data-testid="preset-apply"
               >
                 {preset.name}
               </button>
@@ -89,12 +93,13 @@ export default function SavedFiltersPanel({ currentFilters, onLoadPreset }: Save
                 onClick={() => handleDelete(preset.id)}
                 className="text-gray-500 hover:text-red-600 dark:hover:text-red-400"
                 aria-label={`Delete preset ${preset.name}`}
+                data-testid="preset-delete"
               >
                 ×
               </button>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
 
       {showSaveModal && (
@@ -118,6 +123,7 @@ export default function SavedFiltersPanel({ currentFilters, onLoadPreset }: Save
                 }
               }}
               autoFocus
+              data-testid="preset-name-input"
             />
             <div className="flex gap-2 justify-end">
               <button
