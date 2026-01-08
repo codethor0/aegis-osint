@@ -61,6 +61,7 @@ export default function SearchBar() {
               placeholder="Search resources and categories..."
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
               maxLength={1000}
+              data-testid="search-input"
             />
             {showHistory && history.length > 0 && (
               <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
@@ -85,6 +86,7 @@ export default function SearchBar() {
           <button
             type="submit"
             className="px-4 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
+            data-testid="search-submit"
           >
             Search
           </button>

@@ -139,7 +139,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
       )}
 
       {query && searchType !== 'categories' && (
-        <div className="mb-12">
+        <div className="mb-12" data-testid="search-results">
           <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">
             Resources ({resources.length})
           </h2>
