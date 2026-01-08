@@ -22,7 +22,8 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "validate:data": "tsx scripts/validate-build.ts",
     "validate:links": "tsx scripts/validate-links.ts",
-    "validate:hygiene": "tsx scripts/check-hygiene.ts"
+    "validate:hygiene": "tsx scripts/check-hygiene.ts",
+    "security:audit": "npm audit --audit-level=high --omit=dev"
   },
   "keywords": [
     "osint",
